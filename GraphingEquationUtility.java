@@ -85,7 +85,7 @@ public class GraphingEquationUtility
         }
     }
     
-    /*Extracts all needed information fromt he String expression*/
+    /*Extracts all needed information from the String expression*/
     public void cleanExpression()
     {
         /*Declare Variavble and instantiate new lists*/
@@ -101,7 +101,7 @@ public class GraphingEquationUtility
         
         /*POLYNOMIAL PORTION*/
         /*while there is still x with an exponent*/
-        while(expression.indexOf("^")>0)
+        while(expression.indexOf("x")>=0)
         {
             if(expression.indexOf("x")==0||expression.indexOf("+x")==0)/*If coefficient doesn't exist slope is 1*/
                 coefficients.add(1.0);
@@ -109,19 +109,21 @@ public class GraphingEquationUtility
                 coefficients.add(-1.0);
             else /*Double before x is the coefficient*/
                 coefficients.add(Double.parseDouble(expression.substring(0,expression.indexOf("x"))));
-            
-            if(expression.charAt(expression.indexOf("^")+1) == '(') /*If the exponent is in () then take the value with in them*/
+            if(expression.indexOf("x") < expression.length()-1 && expression.charAt(expression.indexOf("x")+1) == '^') /*If the exponent is in () then take the value with in them*/
             {
-                exponents.add(Double.parseDouble(expression.substring(expression.indexOf("(")+1,expression.indexOf(")"))));
-                expression=expression.substring(expression.indexOf(")")+1);
+                int i=1;
+                while(expression.indexOf("^")+i!=expression.length() && expression.charAt(expression.indexOf("^")+i) != '-' && expression.charAt(expression.indexOf("^")+i)!='+')
+                    i++;
+                
+                exponents.add(Double.parseDouble(expression.substring(expression.indexOf("^")+1,expression.indexOf("^")+i)));
+                expression=expression.substring(expression.indexOf("^")+i);
             }
             else/*Else exponent is the first character after the ^*/
             {
-                exponents.add(Double.parseDouble(expression.substring(expression.indexOf("^")+1,expression.indexOf("^")+2)));
-                expression=expression.substring(expression.indexOf("^")+2);
+                exponents.add(1.0);
+                expression=expression.substring(expression.indexOf("x")+1);
             }
         }
-        
         /*LINEAR PORTION--------Find the slope*/
         if(expression.indexOf("x")<0) /*If x doesn't exist slope is 0*/
             strSlope="0";

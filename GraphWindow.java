@@ -15,7 +15,6 @@ public class GraphWindow extends JPanel
     
     public GraphWindow(double[][] points)
     {
-        setSize(500, 500);
         this.points = points;
         scale = 10;
     }

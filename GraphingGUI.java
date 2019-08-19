@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 public class GraphingGUI extends JPanel implements ActionListener, ChangeListener
 {
     /*BUTTONS AND LABELS*/
-    private JButton graph;
+    private JButton graph, help;
     private JTextField equation;
     private JLabel equationLabel;
     private JLabel scale;
@@ -49,6 +49,7 @@ public class GraphingGUI extends JPanel implements ActionListener, ChangeListene
         JPanel graphDisplay = new JPanel();
         graphDisplay.setLayout(new GridLayout(1,1));
         gWin = new GraphWindow(graphingUtil.getTable());
+        gWin.setPreferredSize(new Dimension(500, 500));
         graphDisplay.add(gWin);
         
         /*BOTTOM BAR*/
@@ -82,6 +83,9 @@ public class GraphingGUI extends JPanel implements ActionListener, ChangeListene
         graph.addActionListener(this);
         graph.doClick();
         equationBar.add(graph);
+        help = new JButton("?");
+        help.addActionListener(this);
+        equationBar.add(help);
         bottomBar.add(equationBar, BorderLayout.CENTER);
         
         userInterface.add(graphDisplay, BorderLayout.CENTER);
@@ -89,6 +93,7 @@ public class GraphingGUI extends JPanel implements ActionListener, ChangeListene
         
         /*SET WINDOW VISIBLE*/
         window.add(userInterface);
+        window.pack();
         window.setVisible(true);
     }
     
@@ -100,6 +105,17 @@ public class GraphingGUI extends JPanel implements ActionListener, ChangeListene
             graphingUtil.setExpression(equation.getText()); //create new equation
             gWin.setPoints(graphingUtil.getTable()); //update points used by the graph window
             gWin.repaint(); //repaint the window
+        }
+        
+        if(e.getSource()==help)
+        {
+            String message = "You are  using the Java Polynomial Graphing Utility. Use these examples on how to properly input your polynomial.";
+            message += "\n\t Ex.1: 2x";
+            message += "\n\t Ex.2: .2x^2+3";
+            message += "\n\t Ex.3: -5x^7-4x^2+.5";
+            message += "\n\t Ex.4: x^.5-1";
+            message += "\n Tip: Be sure that any constant number is at the end of the equation!";
+            JOptionPane.showMessageDialog(null, message, "Help Window", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
